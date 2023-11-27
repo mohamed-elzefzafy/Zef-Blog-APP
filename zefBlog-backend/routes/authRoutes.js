@@ -1,9 +1,9 @@
-// const express = require("express");
-// const { dddddd } = require("../controllers/authControler");
+const express = require("express");
+const { dddddd } = require("../controllers/authControler");
 
-// const router = express.Router();
+const router = express.Router();
 
 
-// router.route("/").post(dddddd);
+router.route("/").post(dddddd);
 
-// module.exports = router;
+module.exports = router;

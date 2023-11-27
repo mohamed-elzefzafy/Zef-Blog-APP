@@ -1,9 +1,8 @@
 const express = require("express");
-const autRouter = require("./routes/authRoutes");
 const connectToDB = require("./config/connectDB");
 require("dotenv").config();
 
-
+// connect to database 
 connectToDB();
 
 const app = express();
@@ -11,7 +10,8 @@ const app = express();
 app.use(express.json());
 
 
-app.use("/api/auth" , autRouter);
+// mount Routes api 
+mountRoutes(app);
 
 
 
