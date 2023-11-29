@@ -1,7 +1,8 @@
+const path = require("path");
 const express = require("express");
 const connectToDB = require("./config/connectDB");
 const mountRoutes = require("./routes/IndexMountRoute");
-require("dotenv").config();
+require("dotenv").config({path : "config.env"});
 
 // connect to database 
 connectToDB();
