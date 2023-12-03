@@ -4,7 +4,12 @@
   "description": "backend for blog app",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index"
+    "build": "npm install --force",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "^18.16.0"
   },
   "author": "Mohamed Elzefzafy",
   "license": "ISC",
