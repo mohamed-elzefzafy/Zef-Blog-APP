@@ -3,19 +3,20 @@ const asyncHandler = require("express-async-handler");
 const { UserModel, validateUpdateUser } = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const path = require("path");
-const { cloudinaryUploadImage, cloudinaryRemoveImage } = require("../utils/cloudinary");
-const { log } = require("console");
+const { cloudinaryUploadImage, cloudinaryRemoveImage, cloudinaryRemoveMultipleImage } = require("../utils/cloudinary");
+const { PostModel } = require("../models/postModel");
+const { commentModel } = require("../models/commentModel");
 
 
 /**---------------------------------------
  * @desc    get All Users profile
  * @route   /api/v1/users/profile
  * @method  GET
- * @access  Private (admin only)
+ * @access  private (admin only)
  ----------------------------------------*/
  exports.getAllUsers = asyncHandler(async (req, res) => {
-  const users = await UserModel.find().select("-password");
-  res.status(200).json({data : users});
+  const users = await UserModel.find().select("-password").populate("posts");
+  res.status(200).json({ result : users.length , data : users});
  });
 
 
@@ -26,7 +27,7 @@ const { log } = require("console");
  * @access  private (admin and specific user only)
  ----------------------------------------*/
  exports.getOneUser = asyncHandler(async (req, res) => {
-  const user = await UserModel.findById(req.params.id).select("-password");
+  const user = await UserModel.findById(req.params.id).select("-password").populate("posts");
   if (!user) {
 return res.status(404).json({message : `User with id ${req.params.id}  not found`})
   }
@@ -119,5 +120,37 @@ await  cloudinaryRemoveImage(user.profilePhoto.publicId);
   // 8. Remvoe image from the server
 fs.unlinkSync(imagePath);
  })
+
+
+/**---------------------------------------
+ * @desc    delete User profile (Account)
+ * @route   /api/v1/users/profile/:id
+ * @method  DELETE
+ * @access  private (admin only or him self)
+ ----------------------------------------*/
+ exports.deleteUser = asyncHandler(async (req, res) => {
+   // 1. Get the user from DB
+   const user = await UserModel.findById(req.params.id);
+   if (!user) {
+    return res.status(404).json({message : `User with id ${req.params.id}  not found`})
+      }
+    //2. Get all posts from DB
+    const posts = await PostModel.find({user : user._id});
+    //3. Get the public ids from the posts
+    const publicIds = posts?.map((post) => post.image.publicId)
+    // 4. Delete all posts image from cloudinary that belong to this user
+  if (publicIds?.length > 0) {
+    await cloudinaryRemoveMultipleImage(publicIds)
+  }
+   // 5. Delete the profile picture from cloudinary
+   await cloudinaryRemoveImage(user.profilePhoto.publicId)
+   // 6. Delete user posts & comments
+   await PostModel.deleteMany({user : user._id});
+   await commentModel.deleteMany({user : user._id});
+   // 7. Delete the user himself
+   await UserModel.findByIdAndDelete(req.params.id);
+   // 8. Send a response to the client
+  res.status(200).json({message : "user deleted successfully"});
+ });
 
 

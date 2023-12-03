@@ -1,8 +1,9 @@
 const path = require("path");
+require("dotenv").config({path : "./config.env"});
 const express = require("express");
 const connectToDB = require("./config/connectDB");
 const mountRoutes = require("./routes/IndexMountRoute");
-require("dotenv").config({path : "config.env"});
+
 
 // connect to database 
 connectToDB();
@@ -15,7 +16,9 @@ app.use(express.json());
 // mount Routes api 
 mountRoutes(app);
 
-
+app.get("/" , (req , res) => {
+  res.send("Zef-Blog api is running...");
+} )
 
 const port = process.env.PORT || 8000
 app.listen(port , () => {

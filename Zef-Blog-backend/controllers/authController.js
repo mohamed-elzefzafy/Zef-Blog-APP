@@ -72,6 +72,6 @@ if (!isPasswordMatch)
 
 const token =  user.generateAuthToken();
 
-res.status(200).json({message : "logged in succesufully" , data : user , token});
+res.status(200).json({message : "logged in successfully" , data : user , token});
 
  })
