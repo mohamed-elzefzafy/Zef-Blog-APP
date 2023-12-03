@@ -4,7 +4,7 @@
   "description": "backend for blog app",
   "main": "index.js",
   "scripts": {
-    "build": "npm install --force",
+    "build": "npm install",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
