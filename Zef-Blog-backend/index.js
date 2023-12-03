@@ -3,6 +3,8 @@ require("dotenv").config({path : "./config.env"});
 const express = require("express");
 const connectToDB = require("./config/connectDB");
 const mountRoutes = require("./routes/IndexMountRoute");
+const { notFound, errorHandler } = require("./middlewares/errorsHandler");
+
 
 
 // connect to database 
@@ -15,6 +17,14 @@ app.use(express.json());
 
 // mount Routes api 
 mountRoutes(app);
+
+
+
+//erroe handler middleware
+app.use(notFound);
+app.use(errorHandler);
+
+
 
 app.get("/" , (req , res) => {
   res.send("Zef-Blog api is running...");
