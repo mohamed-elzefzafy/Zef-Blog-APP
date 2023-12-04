@@ -30,5 +30,13 @@ const photoUpload = multer({
   limits : {fileSize : 1024 * 1024}
 });
 
-module.exports = photoUpload;
+
+
+const memorystor = multer.memoryStorage();
+
+const uploadTest = multer({storage : memorystor})
+
+
+
+module.exports = {photoUpload, uploadTest};
 

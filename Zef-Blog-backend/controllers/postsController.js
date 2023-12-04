@@ -23,8 +23,9 @@ exports.createPost = asyncHandler(async(req , res) => {
     return res.status(400).json({message :error.details[0].message});
   }
   // 3. Upload photo
-  const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
-const result =   await cloudinaryUploadImage(imagePath);
+  // const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
+// const result =   await cloudinaryUploadImage(imagePath);
+const result =   await cloudinaryUploadImage(req.file.path);
   // 4. Create new post and save it to DB  
 
   const post = await PostModel.create({
@@ -41,7 +42,7 @@ const result =   await cloudinaryUploadImage(imagePath);
   // 5. Send response to the client
   res.status(201).json({data : post})
   // 6. Remove image from the server
-fs.unlinkSync(imagePath);
+// fs.unlinkSync(imagePath);
 })
 
 /**---------------------------------------
