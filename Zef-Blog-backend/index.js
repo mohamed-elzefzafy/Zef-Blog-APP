@@ -14,10 +14,13 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/" , (req , res) => {
+  res.send("Zef-Blog api is running...");
+} )
+
 
 // mount Routes api 
 mountRoutes(app);
-
 
 
 //erroe handler middleware
@@ -25,10 +28,6 @@ app.use(notFound);
 app.use(errorHandler);
 
 
-
-app.get("/" , (req , res) => {
-  res.send("Zef-Blog api is running...");
-} )
 
 const port = process.env.PORT || 8000
 app.listen(port , () => {

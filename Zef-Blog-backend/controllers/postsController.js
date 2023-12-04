@@ -15,7 +15,7 @@ const { commentModel } = require("../models/commentModel");
 exports.createPost = asyncHandler(async(req , res) => {
   // 1. Validation for image
   if (!req.file) {
-    return res.status(400).json({ message: " no image provided"});
+    return res.status(400).json({ message: "NO image provided"});
   }
   // 2. Validation for data
   const {error} = validateCreatePost(req.body);
@@ -145,7 +145,7 @@ return res.status(400).json({message : `no post found with id ${req.params.id}`}
 
 if (req.user.id !== post.user.toString())
 {
-  return res.status(403).json({message : `access denied you are not allowed`})
+  return res.status(403).json({message : `access denied you are not allowed to access this route`})
 }
 
 const updatedPost = await PostModel.findByIdAndUpdate(req.params.id , {
