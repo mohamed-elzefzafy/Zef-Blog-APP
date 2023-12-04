@@ -97,7 +97,7 @@ res.status(200).json({data : count});
   // 2. Get the path of the image
   const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
   // 3. Upload to cloudinary
-  const result = await cloudinaryUploadImage(imagePath);
+  const result = await cloudinaryUploadImage(req.file.path);
   console.log(result);
   // 4. Get the user from DB
   const user = await UserModel.findById(req.user.id);
