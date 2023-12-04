@@ -95,8 +95,9 @@ res.status(200).json({data : count});
     return res.status(400).json({message : "no file provided"});
   }
   // 2. Get the path of the image
-  const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
+  // const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
   // 3. Upload to cloudinary
+  // const result = await cloudinaryUploadImage(imagePath);
   const result = await cloudinaryUploadImage(req.file.path);
   console.log(result);
   // 4. Get the user from DB
@@ -118,7 +119,7 @@ await  cloudinaryRemoveImage(user.profilePhoto.publicId);
   profilePhoto : {url : result.secure_url , publicId : result.public_id}
 });
   // 8. Remvoe image from the server
-fs.unlinkSync(imagePath);
+// fs.unlinkSync(imagePath);
  })
 
 
