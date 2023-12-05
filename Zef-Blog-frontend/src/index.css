@@ -10,6 +10,9 @@
   --pumpkin-color: #d35400;
   --red-color: #d9534f;
   --white-color: #fff;
+  --post-item-color: rgb(244, 244, 244);
+  --post-item-border-color: rgb(183, 179, 179);
+  --category-item-color: rgb(170, 168, 168);
 }
 
 * {
@@ -23,6 +26,7 @@ body {
   background-color: var(--main-color);
   overflow-x: hidden;
 }
+
 
 a {
   text-decoration: none;
