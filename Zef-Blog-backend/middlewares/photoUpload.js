@@ -32,11 +32,6 @@ const photoUpload = multer({
 
 
 
-const memorystor = multer.memoryStorage();
 
-const uploadTest = multer({storage : memorystor})
-
-
-
-module.exports = {photoUpload, uploadTest};
+module.exports = {photoUpload};
 
