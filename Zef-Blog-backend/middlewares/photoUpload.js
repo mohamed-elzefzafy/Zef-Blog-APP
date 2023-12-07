@@ -1,7 +1,6 @@
 const path = require("path");
 const multer = require("multer");
-const fs = require("fs");
-const asyncHandler = require("express-async-handler");
+
 
 
 const photoStorage = multer.diskStorage({
@@ -32,13 +31,12 @@ const photoUpload = multer({
 });
 
 
-const deleteImages = asyncHandler(async(req , res) => {
-  fs.unlinkSync(req.pathOfImage)
- })
+
+const memorystor = multer.memoryStorage();
+
+const uploadTest = multer({storage : memorystor})
 
 
 
-
-
-module.exports = {photoUpload , deleteImages};
+module.exports = {photoUpload, uploadTest};
 
