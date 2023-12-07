@@ -23,7 +23,7 @@ const cloudinaryUploadImage = async(fileUpload) => {
 // cloudinary Remove image
 const cloudinaryRemoveImage = async(ImagePublicId) => {
   try {
-    const result = await cloudinary.uploader.destroy(ImagePublicId)
+    const result = await cloudinary.v2.uploader.destroy(ImagePublicId)
     return result;
     
   } catch (error) {

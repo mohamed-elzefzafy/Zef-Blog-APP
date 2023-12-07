@@ -12,7 +12,7 @@ const { commentModel } = require("../models/commentModel");
  * @method  POST
  * @access  private (only logged in user )
  ----------------------------------------*/
-exports.createPost = asyncHandler(async(req , res) => {
+exports.createPost = asyncHandler(async(req , res , next) => {
   // 1. Validation for image
   if (!req.file) {
     return res.status(400).json({ message: "NO image provided"});
@@ -23,7 +23,7 @@ exports.createPost = asyncHandler(async(req , res) => {
     return res.status(400).json({message :error.details[0].message});
   }
   // 3. Upload photo
-  // const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
+  const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
 // const result =   await cloudinaryUploadImage(imagePath);
 const result =   await cloudinaryUploadImage(req.file.path);
   // 4. Create new post and save it to DB  
@@ -40,9 +40,12 @@ const result =   await cloudinaryUploadImage(req.file.path);
   });
 
   // 5. Send response to the client
+  req.pathOfImage = imagePath;
+
   res.status(201).json({data : post})
   // 6. Remove image from the server
 // fs.unlinkSync(imagePath);
+next();
 })
 
 /**---------------------------------------
@@ -85,9 +88,6 @@ const result =   await cloudinaryUploadImage(req.file.path);
   if (!post) {
     return res.status(404).json({message : "this post not found"});
   }
-console.log(process.env.CLOUDINARY_CLOUD_NAME);
-console.log(process.env.CLOUDINARY_API_KEY);
-console.log(process.env.CLOUDINARY_API_SECRET);
   res.status(200).json({data : post});
  })
 
@@ -167,7 +167,7 @@ res.status(200).json({data : updatedPost})
  * @method  PUT
  * @access  private (only user owner post) 
  ----------------------------------------*/
- exports.updatePostImage = asyncHandler(async(req , res) => {
+ exports.updatePostImage = asyncHandler(async(req , res , next) => {
 if (!req.file)
 {
   return res.status(400).json({message : `no photo provided`})
@@ -184,7 +184,7 @@ if (!req.file)
 
   await cloudinaryRemoveImage(post.image.publicId);
 
-  // const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
+  const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
   // const result = await cloudinaryUploadImage(imagePath);
   const result = await cloudinaryUploadImage(req.file.path);
 
@@ -199,10 +199,14 @@ if (!req.file)
     },
     }
   } ,{new : true});
+  req.pathOfImage = imagePath;
   
-  res.status(200).json({data : updatedPost});
+  res.status(200).json({ data : updatedPost});
   // fs.unlinkSync(imagePath);
+  next()
    })
+
+
 
       /**---------------------------------------
  * @desc    Toggle like
@@ -218,7 +222,7 @@ if (!post) {
   }
 
   const isPostLiked = post.likes.find((user) => user.toString() === req.user.id);
-console.log(isPostLiked);
+
 if (isPostLiked)
 {
   post = await PostModel.findByIdAndUpdate(req.params.id ,{

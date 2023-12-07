@@ -6,6 +6,7 @@ import RegisterPage from "./pages/forms/RegisterPage";
 import PostsPage from "./pages/posts/PostsPage";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import CreatePostPage from "./pages/createPpst/CreatePostPage";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
     <Route path="/" element={<HomePage/>}/>
     <Route path="/" element={<HomePage/>}/>
   </Routes>
+  <Footer/>
 </BrowserRouter>
   );
 }

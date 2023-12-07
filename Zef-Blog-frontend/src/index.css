@@ -66,3 +66,15 @@ html::-webkit-scrollbar-thumb {
   background-color: var(--dark-color);
   border-radius: 15px;
 }
+
+
+footer {
+  background-color: var(--blue-color);
+  color: var(--white-color);
+display: flex;
+justify-content: center;
+align-items: center;
+   height: 50px;
+  font-size: 17px;
+  font-weight: 500;
+}

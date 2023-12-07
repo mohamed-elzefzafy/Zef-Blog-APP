@@ -88,18 +88,18 @@ res.status(200).json({data : count});
  * @method  POST
  * @access  private (only logged user)
  ----------------------------------------*/
- exports.profilePhotoUpload = asyncHandler(async (req, res) => {
+ exports.profilePhotoUpload = asyncHandler(async (req, res , next) => {
   // 1. Validation
   if (!req.file)
   {
     return res.status(400).json({message : "no file provided"});
   }
   // 2. Get the path of the image
-  // const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
+  const imagePath = path.join(__dirname , `../images/${req.file.filename}`);
   // 3. Upload to cloudinary
   // const result = await cloudinaryUploadImage(imagePath);
   const result = await cloudinaryUploadImage(req.file.path);
-  console.log(result);
+
   // 4. Get the user from DB
   const user = await UserModel.findById(req.user.id);
   // 5. Delete the old profile photo if exist
@@ -115,9 +115,11 @@ await  cloudinaryRemoveImage(user.profilePhoto.publicId);
 
   await user.save();
   // 7. Send response to client
+  req.pathOfImage = imagePath;
   res.status(200).json({message : "your profile photo uploaded successfully",
   profilePhoto : {url : result.secure_url , publicId : result.public_id}
 });
+next();
   // 8. Remvoe image from the server
 // fs.unlinkSync(imagePath);
  })
