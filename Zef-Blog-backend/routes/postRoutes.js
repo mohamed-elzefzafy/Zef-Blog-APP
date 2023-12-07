@@ -1,7 +1,7 @@
 const { createPost, getOnePost, deletePost, updatePost, updatePostImage, ToggleLike, getPostsCount, getAllPosts } = require("../controllers/postsController");
 const {photoUpload} = require("../middlewares/photoUpload");
 const validateObjectId = require("../middlewares/validateObjectId");
-const { verifyToken, verifyTokenAndOnlyUser, verifyTokenUserNotAdmin } = require("../middlewares/verifyToken");
+const { verifyToken, verifyTokenUserNotAdmin } = require("../middlewares/verifyToken");
 const router = require("express").Router();
 
 
