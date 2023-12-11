@@ -1,0 +1,188 @@
+.admin-dasboard {
+  display: flex;
+overflow: hidden;
+width: 100%;
+min-height: calc(100vh - 50px);
+padding-top: 60px;
+}
+
+
+/* admin sidebar  */
+
+.admin-sidebar {
+flex: 2;
+border-right: 1px solid var(--gray-color);
+padding: 20px;
+}
+
+.admin-sidebar-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+  display: block;
+}
+.admin-sidebar-title i{
+margin-right: 5px;
+color: var(--green-color);
+}
+
+.admin-dasboard-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar-link {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: 20px;
+  cursor: pointer;
+  display: block;
+  padding: 10px 0;
+  transition: all 0.5s;
+}
+
+.admin-sidebar-link i{
+margin-right: 5px;
+font-size: 22px;
+}
+.admin-sidebar-link:hover {
+  color: var(--primary-color);
+}
+
+/* admin-main  */
+.admin-main {
+  flex: 10;
+  padding: 10px;
+}
+
+.admin-main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--gray-color);
+}
+
+.admin-main-card {
+  border: 2px solid var(--gray-color);
+  margin: 5px;
+  width: 22%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.admin-card-title {
+  font-size: 21px;
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+}
+
+.admin-main-count {
+  font-size: 21px;
+  font-weight: bold;
+  color: var(--pumpkin-color);
+  margin: 5px 0;
+}
+
+.admin-main-card-link-wrabber {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-card-link {
+  background-color: var(--green-sea-color);
+  font-size: 17px;
+  padding: 5px;
+  color: var(--white-color);
+  font-weight: 500;
+  border-radius: 10px;
+}
+
+.admin-card-icon i {
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+  font-size: 20px;
+  padding: 3px 5px;
+  border-radius: 10px;
+}
+
+/* add category form  */
+.add-category {
+  margin: 10px auto;
+  margin-top: 20px;
+  padding: 10px;
+  width: 700px;
+  border: 2px solid var(--gray-color);
+  border-radius: 10px;
+  flex-direction: column;
+}
+
+.add-category-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.add-category-form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-category-form-group label {
+margin: 5px;
+font-size: 15px;
+font-weight: 600;
+color: var(--gray-color);
+}
+
+.add-category-form-group input {
+padding: 10px;
+border: 1px solid var(--gray-color);
+border-radius: 10px;
+font-size: 19px;
+font-weight: 500;
+}
+
+.add-category-btn {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--green-color);
+  color: var(--white-color);
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .admin-main-card {
+    width: 44%;
+  }
+}
+@media (max-width: 990px) {
+  .admin-sidebar {
+    display: none;
+  }
+
+  .add-category {
+    width: 100%;
+  }
+}
+@media (max-width: 520px) {
+  .admin-main-card {
+    width: 100%;
+  }
+
+  .admin-main-header {
+    justify-content: center;
+  }
+}

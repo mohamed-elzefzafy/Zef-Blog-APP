@@ -28,6 +28,7 @@ border-radius: 18px;
 color: var(--dark-color);
 border: 2px solid var(--green-color);
 text-transform: capitalize;
+margin-top: 40px;
 }
 
 .home-latest-post {

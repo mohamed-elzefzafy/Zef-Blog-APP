@@ -1,0 +1,21 @@
+.table-container {
+  display: flex;
+  min-height: calc(100vh - 50px);
+padding-top: 60px;
+overflow: hidden;
+}
+
+.table-wrabber {
+flex: 10;
+padding: 20px;
+overflow-y: scroll;
+}
+
+.table-title {
+  font-size: 30px;
+  color: var(--secondary-color);
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--secondary-color);
+  padding-bottom: 3px;
+  width: max-content;
+}

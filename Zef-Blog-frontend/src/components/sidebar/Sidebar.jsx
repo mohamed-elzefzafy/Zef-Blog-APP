@@ -7,8 +7,8 @@ const Sidebar = ({categories}) => {
     <h5 className="sidebar-title">CATEGORIES</h5>
     <ul className="sidebar-links">
       {
-        categories.map((category) => 
-        <Link to={`/posts/categories/${category.title}`} key={category._id} className="sidebar-link">{category.title}</Link>
+        categories?.map((category) => 
+        <Link to={`/posts/categories/${category?.title}`} key={category?._id} className="sidebar-link">{category?.title}</Link>
         )
       }
     </ul>

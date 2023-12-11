@@ -1,6 +1,6 @@
 import "./createPost.css";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const CreatePostPage = () => {
   const [title, setTitle] = useState("");
@@ -26,7 +26,6 @@ console.log({title , description  , category   , file});
   }
   return (
     <section className="create-post">
-    <ToastContainer theme="colored" position="top-center"/>
       <h1 className="create-post-title">Create New Post</h1>
       <form onSubmit={formSubmitHandler} className="create-post-form">
         <input

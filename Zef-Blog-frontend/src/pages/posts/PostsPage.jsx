@@ -15,8 +15,8 @@ const PostsPage = () => {
     <section className="post-page">
       <PostList posts={posts}/>
       <Sidebar categories={categories}/>
-      <Pagination/>
     </section>
+    <Pagination/>
   </>
   )
 }

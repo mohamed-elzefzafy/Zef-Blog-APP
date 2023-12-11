@@ -4,9 +4,9 @@ const multer = require("multer");
 
 
 const photoStorage = multer.diskStorage({
-  destination : function (req , file , cb) {
-    cb( null , path.join(__dirname , "../images"))
-  },
+  // destination : function (req , file , cb) {
+  //   cb( null , path.join(__dirname , "../images"))
+  // },
   filename : function (req , file , cb) {
   if (file)
   {

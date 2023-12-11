@@ -10,8 +10,8 @@ cloudinary.config({
 // cloudinary upload image
 const cloudinaryUploadImage = async(fileUpload) => {
   try {
-    const data = await cloudinary.uploader.upload(fileUpload , {
-      resource_type : "auto"
+    const data = await cloudinary.uploader.upload(fileUpload , {  resource_type : "auto"  }  , {
+      folder: "Zef-Blog",
     })
     return data;
     

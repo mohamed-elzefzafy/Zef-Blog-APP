@@ -1,0 +1,22 @@
+.add-comment {
+margin: 30px 0;
+}
+
+.add-comment-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 19px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.add-comment-btn {
+background-color: var(--primary-color);
+color: var(--white-color);
+font-size: 15px;
+padding: 5px 10px;
+border-radius: 20px;
+border: none;
+cursor: pointer;
+}
