@@ -60,6 +60,22 @@
 margin-right: 3px;
  }
 
+ .header-right-info {
+  display: flex;
+  align-items: center;
+  position: relative;
+ }
+
+ .header-right-username {
+
+ }
+
+.header-right-user-photo {
+width: 30px;
+height: 30px;
+border-radius: 50%;
+}
+
 
  /* media query  */
 
@@ -111,3 +127,6 @@ margin-right: 3px;
     margin-right: 5px;
    }
  }
+
+
+

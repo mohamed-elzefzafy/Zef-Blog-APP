@@ -1,22 +1,25 @@
-import "./adminTable.css";
-import { Link } from "react-router-dom";
-import AdminSidebar from "./AdminSidebar";
-import swal from "sweetalert";
+
+import swal from 'sweetalert';
+import { posts } from './../../dummyData';
+import AdminSidebar from './AdminSidebar';
+import { Link } from 'react-router-dom';
 
 
-const UsersTablePage = () => {
-  const deleteUserHandler = () => {
+
+const PostsTablePage = () => {
+  
+  const deletePostHandler = () => {
 
     swal({
       title: "Are you sure?",
-      text: "you will delete this user!",
+      text: "you will delete this post!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
     .then((willDelete) => {
       if (willDelete) {
-        swal("User has been deleted!", {
+        swal("Post has been deleted!", {
           icon: "success",
         });
       } else {
@@ -30,35 +33,35 @@ const UsersTablePage = () => {
     <section className="table-container">
   <AdminSidebar/>
       <div className="table-wrabber">
-        <h1 className="table-title">Users</h1>
+        <h1 className="table-title">Posts</h1>
         <table className="table">
           <thead>
             <tr>
               <th>Count</th>
               <th>User</th>
-              <th>Email</th>
+              <th>Post Title</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {[1 , 2 , 3 , 4 , 5 , 6 , 7, 8 , 9, 10].map((item , index) => 
-            <tr key={item}>
+            {posts.map((post , index) => 
+            <tr key={post._id}>
             <td>{index + 1}</td>
             <td>
               <div className="table-image">
               <img src="/images/user-avatar.png" alt="" className="user-image" />
-              <span className="table-username">Mohamed Elzefzafy</span>
+              <span className="table-username">{post.user.username}</span>
               </div>
             </td>
-            <td>Elzefzafy@fdfdsfsd.dfss</td>
+            <td>{post.title}</td>
             <td>
               <div className="table-button-group">
                 <button>
-                  <Link to={`/profile/1`}>
-                    View Profile
+                  <Link to={`details/${post._id}`}>
+                    View Post
                   </Link>
                 </button>
-                <button onClick={deleteUserHandler}>Delete User</button>
+                <button onClick={deletePostHandler}>Delete Post</button>
               </div>
             </td>
             </tr>
@@ -70,4 +73,4 @@ const UsersTablePage = () => {
   )
 }
 
-export default UsersTablePage;
+export default PostsTablePage;

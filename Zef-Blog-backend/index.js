@@ -4,6 +4,7 @@ const express = require("express");
 const connectToDB = require("./config/connectDB");
 const mountRoutes = require("./routes/IndexMountRoute");
 const { notFound, errorHandler } = require("./middlewares/errorsHandler");
+const cors = require("cors");
 
 
 
@@ -19,6 +20,10 @@ app.get("/" , (req , res) => {
 } )
 
 
+// cors policy 
+app.use(cors({
+  origin : "http://localhost:3000"
+}));
 // mount Routes api 
 mountRoutes(app);
 
