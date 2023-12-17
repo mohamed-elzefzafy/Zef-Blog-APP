@@ -1,16 +1,22 @@
 import  { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { updateProfileData } from '../../redux/apiCalls/profileApiCall';
 
 
 
-const user = {
-  userName : "Mohamed elzefzafy",
-  bio : "hi i'm mohamed elzefzafy i'm developer"
-}
-const UpdateProfileModal = ({setShowModal}) => {
-  const [userName, setUserName] = useState(user.userName);
-  const [bio, setBio] = useState(user.bio);
+// const user = {
+//   userName : "Mohamed elzefzafy",
+//   bio : "hi i'm mohamed elzefzafy i'm developer"
+// }
+const UpdateProfileModal = ({setShowModal , profile}) => {
+  const {user} = useSelector((state) => state.auth)
+  const [userName, setUserName] = useState(profile?.userName);
+  const [bio, setBio] = useState(profile?.bio);
   const [password, setPassword] = useState("");
 
+
+  const dispatch = useDispatch();
 
   const submitHandler = (e) => {
 e.preventDefault();
@@ -20,7 +26,9 @@ if (password.trim() !== "")
 {
   updatedUser.password = password;
 }
-console.log(updatedUser);
+
+dispatch(updateProfileData(profile?._id , updatedUser))
+setShowModal(false);
   }
   return (
     <div className="update-modal">

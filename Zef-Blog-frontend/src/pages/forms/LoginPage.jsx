@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser } from "../../redux/apiCalls/authApiCall";
 
 
 const LoginPage = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
 
   const loginSubmitHandler = (e) => {
     e.preventDefault();
@@ -18,6 +17,7 @@ const LoginPage = () => {
     if (password.trim() === "") return toast.warning("Password is required");
 
        dispatch(loginUser({email, password}));
+      //  navigate("/");
   };
 
 

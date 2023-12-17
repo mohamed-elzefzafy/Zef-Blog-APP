@@ -96,6 +96,10 @@ align-items: center;
   align-items: center;
   justify-content: center;
   }
+
+  .update-modal.comment  {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+  }
   
   .update-modal-form {
     width: 700px;

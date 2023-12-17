@@ -67,15 +67,41 @@ margin-right: 3px;
  }
 
  .header-right-username {
-
+font-size: 21px;
+font-weight: 500;
+color: var(--main-color);
+margin-right: 10px;
+text-transform: capitalize;
+cursor: pointer;
  }
 
 .header-right-user-photo {
-width: 30px;
-height: 30px;
+width: 40px;
+height: 40px;
+object-fit: cover;
 border-radius: 50%;
 }
 
+.header-right-dropdown {
+  position: absolute;
+  right: 50%;
+  top: 100%;
+  background-color: var(--main-color);
+  color: var(--white-color);
+  border-radius: 5px;
+  padding: 5px;
+  width: 150px;
+  text-align: left;
+  border: 1px solid var(--white-color);
+}
+
+.header-dropdown-item{
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 17px;
+  margin-top: 15px;
+  cursor: pointer;
+}
 
  /* media query  */
 

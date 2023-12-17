@@ -5,11 +5,31 @@ import "./profile.css";
 import { toast } from "react-toastify";
 import swal from "sweetalert";
 import UpdateProfileModal from "./UpdateProfileModal";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserProfile, uploadProfilePhoto } from "../../redux/apiCalls/profileApiCall";
 
 const ProfilePage = () => {
+
+  const {id} = useParams();
+  const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0 , 0);
   } ,[])
+
+console.log(id);
+
+console.log(JSON.parse(localStorage.getItem("UserInfo")).token);
+console.log(JSON.parse(localStorage.getItem("UserInfo")).data);
+
+  useEffect(() => {
+    dispatch(getUserProfile(id))
+  } , [id])
+
+  const {profile} = useSelector((state) => state.profile)
+  if (profile)
+  console.log(profile);
+
   const [file, setFile] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -17,6 +37,10 @@ const ProfilePage = () => {
   const formSubmitHandler = (e) => {
     e.preventDefault();
     if (!file) return toast.warning("No image provided");
+    
+    const formData = new FormData();
+    formData.append("image" , file);
+    dispatch(uploadProfilePhoto(formData))
     console.log("image uploaded");
   }
 
@@ -41,12 +65,14 @@ const ProfilePage = () => {
 
   }
 
+
+
   return (
     <section className="profile">
       <div className="profile-header">
         <div className="profile-image-wrabber">
           <img
-            src={file ? URL.createObjectURL(file) : "/images/user-avatar.png"}
+            src={file ? URL.createObjectURL(file) : profile?.profilePhoto?.url}
             alt=""
             className="profile-image"
           />
@@ -69,11 +95,11 @@ const ProfilePage = () => {
             </button>
           </form>
         </div>
-        <h1 className="profile-username">Mohamed elzefzafy</h1>
-        <p className="profile-bio">hi i'm mohamed elzefzafy i'm developer</p>
+        <h1 className="profile-username">{profile?.userName}</h1>
+        <p className="profile-bio">{profile?.bio}</p>
         <div className="user-date-joined">
           <strong>Date joined : </strong>
-          <span>fri nov 04 2023</span>
+          <span>{new Date(profile?.createdAt).toDateString()}</span>
         </div>
         <button onClick={() => setShowModal(true)} className="profile-update-btn">
           <i className="bi bi-file-person-fill"></i>
@@ -81,11 +107,11 @@ const ProfilePage = () => {
         </button>
       </div>
       <div className="profile-posts-list">
-        <h2 className="profile-post-list-title">Mohamed Posts</h2>
+        <h2 className="profile-post-list-title">{profile?.userName} Posts</h2>
         <PostList posts={posts} />
       </div>
       <button onClick={deleteProfileHandler} className="delete-account-btn">Delete Your Account</button>
-      {showModal && <UpdateProfileModal setShowModal={setShowModal}/>}
+      {showModal && <UpdateProfileModal setShowModal={setShowModal}  profile={profile}/>}
     </section>
   );
 };

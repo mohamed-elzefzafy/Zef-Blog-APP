@@ -28,7 +28,7 @@ password: {
 profilePhoto: {
   type : Object,
 default : {
-  url : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
+  url : "https://res.cloudinary.com/dw1bs1boz/image/upload/v1702487318/Zef-Blog/Default%20images/download_w26sr9.jpg",
   publicId : null
 }
 },

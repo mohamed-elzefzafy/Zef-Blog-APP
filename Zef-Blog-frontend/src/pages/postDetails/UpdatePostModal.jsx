@@ -1,18 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { updatePost } from "../../redux/apiCalls/postApiCall";
+import { getCategories } from "../../redux/apiCalls/categoryApiCall";
 
 const UpdatePostModal = ({ setShowModal, post }) => {
-  const [title, setTitle] = useState(post.title);
-  const [description, setDescription] = useState(post.description);
-  const [category, setCategory] = useState(post.category);
+  const [title, setTitle] = useState(post?.title);
+  const [description, setDescription] = useState(post?.description);
+  const [category, setCategory] = useState(post?.category?._id);
+const dispatch = useDispatch();
 
   const submitHandler = (e) => {
 e.preventDefault();
 if (title.trim() === "") return toast.warning("please enter post title")
 if (description.trim() === "") return toast.warning("please enter post description")
-if (category.trim() === "") return toast.warning("please enter post category")
+if (category === "") return toast.warning("please enter post category")
+
+dispatch(updatePost(post?._id , {title , description , category}))
 console.log({title , description , category});
+setShowModal(false);
   }
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
+
+  const { categories } = useSelector((state) => state.category);
+
   return (
     <div className="update-modal">
       <form onSubmit={submitHandler} className="update-modal-form">
@@ -35,8 +49,10 @@ console.log({title , description , category});
           <option disabled value="">
             Select A Category
           </option>
-          <option value="music">music</option>
-          <option value="travelling">travelling</option>
+          {categories?.data?.map((category) => (
+            <option key={category?._id} value={category?._id}>{category?.title}</option>
+          ))}
+    
         </select>
         <textarea
           className="update-modal-textarea"

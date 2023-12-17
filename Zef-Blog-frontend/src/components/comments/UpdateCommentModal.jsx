@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { updateComment } from '../../redux/apiCalls/commentApiCall';
 
 
-const UpdateCommentModal = ({setShowCommentModal}) => {
-  const [text, setText] = useState("amazing");
-
+const UpdateCommentModal = ({commentUpdate ,setShowCommentModal}) => {
+  const [text, setText] = useState(commentUpdate?.text);
+   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
 e.preventDefault();
 if (text.trim() === "") return toast.warning("please enter comment text")
 
-console.log({text});
+dispatch(updateComment( commentUpdate._id , {text}));
+setShowCommentModal(false);
   }
   return (
     <div className="update-modal">

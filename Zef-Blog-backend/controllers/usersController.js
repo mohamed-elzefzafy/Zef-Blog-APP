@@ -32,7 +32,7 @@ const { commentModel } = require("../models/commentModel");
 return res.status(404).json({message : `User with id ${req.params.id}  not found`})
   }
 
-  res.status(200).json({data : user});
+  res.status(200).json(user);
  });
 
 
@@ -67,7 +67,7 @@ if (!user) {
     }
   
 
-  res.status(201).json({data : user});
+  res.status(201).json(user);
  });
 
  /**---------------------------------------

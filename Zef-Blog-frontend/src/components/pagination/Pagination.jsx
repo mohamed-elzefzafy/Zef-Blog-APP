@@ -1,13 +1,30 @@
 import "./pagination.css"
 
-const Pagination = () => {
+const Pagination = ({currentPage ,setCurrentPage , pages}) => {
+  const pagesArray = [] ;
+  for (let i = 1 ; i <= pages ; i++) {
+    pagesArray.push(i);
+  }
+
+  console.log(pagesArray);
+
+  const perviPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+  const nextPage = () => {
+    if (currentPage < pagesArray.length) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
   return (
     <div className="pagination">
-      <div className="page previous">previous</div>
-    {[1 , 2 , 3 , 4 ,5].map((page) =>
-    <div key={page} className="page">{page}</div>)
+      <button className="page previous" onClick={perviPage} disabled={currentPage === 1}>previous</button>
+    {pagesArray.map((page) =>
+    <div key={page} className={currentPage === page ? "page active" : "page"}  onClick={() => setCurrentPage(page)}>{page}</div>)
     }
-      <div className="page next">next</div>
+      <button onClick={nextPage} className="page next" disabled={currentPage === pagesArray.length}>next</button>
     </div>
   )
 }

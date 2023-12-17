@@ -33,6 +33,21 @@ const categories = await CategoryModel.find();
 res.status(200).json({ result : categories.length ,data : categories});
  })
 
+
+/**---------------------------------------
+ * @desc    get one category
+ * @route   /api/v1/categories/:id
+ * @method  GET
+ * @access  public
+ ----------------------------------------*/
+ exports.getOneCategory = asyncHandler(async (req, res) => {
+const category = await CategoryModel.findById(req.params.id);
+if (!category) {
+  return res.status(404).json({message : "this category not found"});
+}
+res.status(200).json({ data : category});
+ })
+
 /**---------------------------------------
  * @desc    delete category
  * @route   /api/v1/categories/:id

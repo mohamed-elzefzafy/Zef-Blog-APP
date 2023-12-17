@@ -1,5 +1,10 @@
+import { useSelector } from "react-redux";
 import {Link} from "react-router-dom";
+
+
+
 const Navbar =  ({toggle , setToggle }) => {
+  const {user} = useSelector((stste) => stste.auth)
   return (
     <nav style={{clipPath :toggle && "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }} className="navbar">
     <ul className="nav-links">
@@ -7,18 +12,27 @@ const Navbar =  ({toggle , setToggle }) => {
         <i className="bi bi-house"></i>
         Home
       </Link>
+
       <Link to="/posts" onClick={() => setToggle(false)} className="nav-link">
         <i className="bi bi-stickies"></i>
         Posts
       </Link>
-      <Link to="/posts/create-post" onClick={() => setToggle(false)} className="nav-link">
+
+{user &&  
+      (<Link to="/posts/create-post" onClick={() => setToggle(false)} className="nav-link">
         <i className="bi bi-journal"></i>
         Create
-      </Link>
-      <Link to="/admin-dashboard" onClick={() => setToggle(false)} className="nav-link">
+      </Link>)
+}
+  
+  {
+    user?.isAdmin  &&  
+(<Link to="/admin-dashboard" onClick={() => setToggle(false)} className="nav-link">
         <i className="bi bi-person-check"></i>
         Admin Dashboard
-      </Link>
+      </Link>)
+  }
+
     </ul>
   </nav> 
   )

@@ -1,21 +1,46 @@
 import { useState } from "react";
 import "./form.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../redux/apiCalls/authApiCall";
+import swal from "sweetalert";
 
 const RegisterPage = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const dispatch = useDispatch();
+const navigate = useNavigate();
+const {registerMessage} = useSelector((stste) => stste.auth);
+
   const registerSubmitHandler = (e) => {
     e.preventDefault();
     if (userName.trim() === "") return toast.warning("Username is required");
     if (email.trim() === "") return toast.warning("Email is required");
     if (password.trim() === "") return toast.warning("Password is required");
+
+    dispatch(registerUser({userName, email, password }))
     console.log({ userName, email, password });
+
   };
 
+  if (registerMessage) {
+    swal({
+      title: registerMessage,
+      icon: "success",
+    })
+    .then((isOk) => {
+      if (isOk) {
+        navigate("/login");
+      } 
+    });
+  }
+
+
+
+  
   return (
     <section className="form-container">
       <h1 className="form-title">Create New Account</h1>

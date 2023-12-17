@@ -1,29 +1,53 @@
 import "./createPost.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { createPost } from "../../redux/apiCalls/postApiCall";
+import { getCategories } from "../../redux/apiCalls/categoryApiCall";
+import { useNavigate } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 
 const CreatePostPage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [file, setFile] = useState(null);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading, isPostCreated } = useSelector((state) => state.post);
   const formSubmitHandler = (e) => {
-e.preventDefault();
-if (title.trim() === "") return   toast.warning("post title is required");
-if (description.trim() === "") return  toast.warning("post description is required");
-if (category.trim() === "") return  toast.warning("post category is required");
-if (!file) return  toast.warning("post file is required");
+    e.preventDefault();
+    if (title.trim() === "") return toast.warning("post title is required");
+    if (description.trim() === "")
+      return toast.warning("post description is required");
+    if (category.trim() === "")
+      return toast.warning("post category is required");
+    if (!file) return toast.warning("post file is required");
 
-const formData = new FormData();
-formData.append("title" , title);
-formData.append("description" , description);
-formData.append("category" , category);
-formData.append("image" , file);
-// @todo send formData to server 
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("image", file);
 
-console.log({title , description  , category   , file});
-  }
+    dispatch(createPost(formData));
+  };
+
+  useEffect(() => {
+    if (isPostCreated) {
+      toast.success("Post created");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    }
+  }, [isPostCreated, navigate]);
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, []);
+
+  const { categories } = useSelector((state) => state.category);
+
   return (
     <section className="create-post">
       <h1 className="create-post-title">Create New Post</h1>
@@ -43,8 +67,10 @@ console.log({title , description  , category   , file});
           <option disabled value="">
             Select Category
           </option>
-          <option value="music">music</option>
-          <option value="coffee">coffee</option>
+          {categories?.data?.map((category) => (
+            <option value={category?._id}>{category?.title}</option>
+          ))}
+    
         </select>
         <textarea
           className="create-post-textarea"
@@ -61,7 +87,17 @@ console.log({title , description  , category   , file});
           onChange={(e) => setFile(e.target.files[0])}
         />
         <button type="submit" className="create-post-btn">
-          Create Post
+          {loading ? (
+            <RotatingLines
+              strokeColor="white"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="30"
+              visible={true}
+            />
+          ) : (
+            "Create Post"
+          )}
         </button>
       </form>
     </section>

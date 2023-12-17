@@ -36,7 +36,7 @@ await user.save();
 // ToDo verify account by sending email
 // ToDo verify account by sending email
 
-res.status(201).json({message : "user registered succesufully please logIn" , data : user});
+res.status(201).json({message : "you registered succesufully please logIn" , data : user});
 });
 
 
@@ -72,6 +72,10 @@ if (!isPasswordMatch)
 
 const token =  user.generateAuthToken();
 
-res.status(200).json({message : "logged in successfully" , data : user , token});
-
+res.status(200).json({message : "logged in successfully" 
+, _id : user._id , userName : user.userName 
+, profilePhoto : user.profilePhoto ,
+isAdmin : user.isAdmin, 
+ token 
+});
  })

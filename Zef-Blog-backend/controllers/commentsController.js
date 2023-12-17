@@ -9,11 +9,11 @@ const { UserModel } = require("../models/userModel");
  * @access  private (user logged in user)
  ----------------------------------------*/
  exports.createComment = asyncHandler(async (req, res) => {
-  const commentsValidate = await commentModel.findOne({user : req.user.id ,postId : req.body.postId });
-  if (commentsValidate){
-    return res.status(404).json({message : "you wrote a comment on this post already"});
-  }
-
+  // const commentsValidate = await commentModel.findOne({user : req.user.id ,postId : req.body.postId });
+  // if (commentsValidate){
+  //   return res.status(404).json({message : "you wrote a comment on this post already"});
+  // }
+  
   const {error} = validateCreateComment(req.body);
   if (error) {
     return res.status(404).json({message : error.details[0].message});

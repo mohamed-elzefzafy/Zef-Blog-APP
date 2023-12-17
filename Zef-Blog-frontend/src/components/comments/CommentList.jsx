@@ -2,52 +2,68 @@ import swal from "sweetalert";
 import "./commentList.css";
 import { useState } from "react";
 import UpdateCommentModal from "./UpdateCommentModal";
+import Moment from "react-moment";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteComment } from "../../redux/apiCalls/commentApiCall";
 
-const CommentList = () => {
+const CommentList = ({comments}) => {
   const [showCommentModal, setShowCommentModal] = useState(false);
-  const deleteCommentHandler = () => {
+  const {user} = useSelector((state) => state.auth);
+  const [commentUpdate, setCommentUpdate] = useState("");
+  const dispatch = useDispatch();
+  const deleteCommentHandler = (comment) => {
 
     swal({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this imaginary file!",
+      text: "you want to delete this comment ?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
     .then((willDelete) => {
       if (willDelete) {
-        swal("Your Comment has been deleted!", {
-          icon: "success",
-        });
+  dispatch(deleteComment(comment._id))
       } else {
         // swal("something went wrong!");
       }
     });
 
   }
+
+  const updateCommentHandler = (comment) => {
+    setShowCommentModal(true)
+    setCommentUpdate(comment)
+  }
   return (
     <div className="comment-list">
-<h4 className="comment-list-count">2 comments</h4>
-{[1 , 2].map((comment) => 
-<div key={comment} className="comment-item">
+<h4 className="comment-list-count">{comments?.length} comments</h4>
+{comments?.map((comment) => 
+<div key={comment?._id} className="comment-item">
 <div className="comment-item-info">
 <div className="comment-item-username">
-  mohahmed zezafy
+{comment?.userName}
 </div>
 <div className="comment-item-time">
-2 hours ago
+<Moment fromNow ago>
+{comment?.createdAt}
+</Moment> {" "} ago
+    
 </div>
 </div>
 <p className="comment-item-text">
-  this amazing
+  {comment?.text}
 </p>
-<div className="comment-items-icons-wrabber">
-  <i className="bi bi-pencil-square" onClick={() => setShowCommentModal(true)}></i>
-  <i className="bi bi-trash-fill" onClick={deleteCommentHandler}></i>
+{comment.user === user?._id  ? (
+  <div className="comment-items-icons-wrabber">
+  <i className="bi bi-pencil-square" onClick={() => updateCommentHandler(comment)}></i>
+  <i className="bi bi-trash-fill" onClick={() => deleteCommentHandler(comment)}></i>
 </div>
+  ) : null}
+
+
 </div>
 )}
-{showCommentModal && <UpdateCommentModal setShowCommentModal={setShowCommentModal}/>}
+{showCommentModal && <UpdateCommentModal commentUpdate={commentUpdate} setShowCommentModal={setShowCommentModal}/>}
     </div>
   )
 }

@@ -62,11 +62,15 @@ const result =   await cloudinaryUploadImage(req.file.path);
   let posts ;
 
   if (pageNumber ) {
-    posts = await PostModel.find(filter).skip((pageNumber - 1) * POSTS_PER_PAGE ).limit(POSTS_PER_PAGE).sort({createdAt : -1}).populate("user" , ["-password"]).populate("comments");
+    posts = await PostModel.find(filter).skip((pageNumber - 1) * POSTS_PER_PAGE )
+    .limit(POSTS_PER_PAGE).sort({createdAt : -1}).populate("user" , ["-password"])
+    .populate("comments").populate().populate("category" , ["-user" , "-createdAt","-updatedAt" , "-__v"]);
       } 
 
        else {
-        posts = await PostModel.find(filter).sort({createdAt : -1}).populate("user" , ["-password"]).populate("comments");
+        posts = await PostModel.find(filter).sort({createdAt : -1})
+        .populate("user" , ["-password"]).populate("comments")
+        .populate("category" , ["-user" , "-createdAt","-updatedAt" , "-__v"]);;
       }
     
 
@@ -81,13 +85,11 @@ const result =   await cloudinaryUploadImage(req.file.path);
  * @access  public 
  ----------------------------------------*/
  exports.getOnePost = asyncHandler(async(req , res) => {
-  const post = await PostModel.findById(req.params.id).populate("user" , ["-password"]).populate("comments");
+  const post = await PostModel.findById(req.params.id).populate("user" , ["-password"]).populate("comments")
+  .populate("category" , ["-user" , "-createdAt","-updatedAt" , "-__v"]);;
   if (!post) {
     return res.status(404).json({message : "this post not found"});
   }
-console.log(process.env.CLOUDINARY_CLOUD_NAME);
-console.log(process.env.CLOUDINARY_API_KEY);
-console.log(process.env.CLOUDINARY_API_SECRET);
   res.status(200).json({data : post});
  })
 
@@ -155,7 +157,7 @@ const updatedPost = await PostModel.findByIdAndUpdate(req.params.id , {
     description: req.body.description,
     category : req.body.category
   }
-} ,{new : true}).populate("user" , ["-password"]);
+} ,{new : true}).populate("user" , ["-password"]).populate("category");
 
 res.status(200).json({data : updatedPost})
  })
@@ -218,7 +220,6 @@ if (!post) {
   }
 
   const isPostLiked = post.likes.find((user) => user.toString() === req.user.id);
-console.log(isPostLiked);
 if (isPostLiked)
 {
   post = await PostModel.findByIdAndUpdate(req.params.id ,{

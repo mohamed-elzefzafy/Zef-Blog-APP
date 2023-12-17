@@ -30,3 +30,13 @@ padding: 0 7px;
 .page.next {
   border-radius: 0 10px  10px 0;
 }
+
+
+.active {
+  color: crimson;
+}
+
+button:disabled {
+  cursor:not-allowed;
+  color: var(--gray-color);
+}
