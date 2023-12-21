@@ -30,7 +30,7 @@ export function updateComment (id , comment) {
             Authorization : `Bearer ${getState().auth.user.token}`
           }
         });
-        dispatch(postAction.updateCommentPost(data));
+        dispatch(postAction.updateCommentPost(data?.data));
       toast.success("comment updated successfully");
       } catch (error) {
         toast.error(error?.response?.data?.message);
@@ -47,11 +47,31 @@ export function updateComment (id , comment) {
               Authorization : `Bearer ${getState().auth.user.token}`
             }
           });
-          dispatch(postAction.deleteCommentPost(data));
-        toast.success("comment updated successfully");
+          dispatch(commentActions.deleteSpecificComent(id));
+          dispatch(postAction.deleteCommentPost(id));
+        toast.success(data?.message);
         } catch (error) {
           toast.error(error?.response?.data?.message);
         }
       }
     }
+  
+
+    export function getAllComments () {
+      return  async (dispatch , getState) => {
+          try {
+            dispatch(commentActions.setLoading());
+            const {data} =  await request.get(`/api/v1/comments` , {
+              headers : {
+                Authorization : `Bearer ${getState().auth.user.token}`
+              }
+            });
+            dispatch(commentActions.setAllComents(data));
+            dispatch(commentActions.clearLoading());
+          } catch (error) {
+            toast.error(error?.response?.data?.message);
+          }
+        }
+      }
+    
   

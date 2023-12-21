@@ -19,6 +19,7 @@ import ResetPassword from "./pages/forms/ResetPassword";
 import NotFound from "./components/not -found/NotFound";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import VerifyEmailPage from "./pages/verify-email/VerifyEmailPage";
 
 
 
@@ -32,9 +33,10 @@ function App() {
     <Route path="/" element={<HomePage/>}/>
     <Route path="/login" element={user ?<Navigate to="/"/> : <LoginPage/>}/>
     <Route path="/register" element={user ?<Navigate to="/"/> : <RegisterPage/>}/>
+    <Route path="/users/:userId/verify/:token" element={user ?<Navigate to="/"/> : <VerifyEmailPage/>}/>
     <Route path="/forgot-password" element={<ForgotPassword/>}/>
-    <Route path="/reset-password" element={<ResetPassword/>}/>
-    <Route path="/profile/:id" element={<ProfilePage/>}/>
+    <Route path="/reset-password/:userId/:token" element={<ResetPassword/>}/>
+    <Route path="/profile/:id" element={user ? <ProfilePage/> : <Navigate to="/register"/> }/>
 
     <Route path="posts">
     <Route index element={<PostsPage/>}/>

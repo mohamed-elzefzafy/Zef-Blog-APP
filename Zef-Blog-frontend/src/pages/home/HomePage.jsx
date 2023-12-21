@@ -13,7 +13,7 @@ const HomePage = () => {
 
 const dispatch = useDispatch();
 
-const {posts} = useSelector(state => state.post);
+const {posts } = useSelector(state => state.post);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,8 +37,8 @@ const {posts} = useSelector(state => state.post);
     </div>
     <div className="home-latest-post">Latest Posts</div>
     <div className="home-container">
-  <PostList posts={posts?.data}/>
-      <Sidebar categories={categories?.data}/>
+  <PostList posts={posts}/>
+      <Sidebar categories={categories}/>
     </div>
     <div className="home-see-posts-link">
       <Link to="/posts" className="home-link">See All Posts</Link>

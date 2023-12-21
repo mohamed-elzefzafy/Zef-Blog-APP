@@ -28,7 +28,7 @@ const PostDetailsPage = () => {
 
   useEffect(() => {
     dispatch(getOnePost(id));
-  }, [id , showModal , post?.comments]);
+  }, [id , showModal ]);
 
 
 
@@ -54,7 +54,7 @@ const PostDetailsPage = () => {
     }).then((willDelete) => {
       if (willDelete) {
         dispatch(deletePost(post?._id));
-        navigate("/");
+        navigate(`/profile/${user?._id}`);
       } else {
         // swal("something went wrong!");
       }

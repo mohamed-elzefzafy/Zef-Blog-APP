@@ -6,7 +6,6 @@ const Pagination = ({currentPage ,setCurrentPage , pages}) => {
     pagesArray.push(i);
   }
 
-  console.log(pagesArray);
 
   const perviPage = () => {
     if (currentPage > 1) {

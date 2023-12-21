@@ -61,7 +61,7 @@ const user = await UserModel.findByIdAndUpdate(req.params.id, {
     password : req.body.password,
     bio : req.body.bio,
   }
-} , {new : true}).select("-password")
+} , {new : true}).select("-password").populate("posts");
 if (!user) {
   return res.status(404).json({message : `User with id ${req.params.id}  not found`})
     }
@@ -144,7 +144,10 @@ await  cloudinaryRemoveImage(user.profilePhoto.publicId);
     await cloudinaryRemoveMultipleImage(publicIds)
   }
    // 5. Delete the profile picture from cloudinary
-   await cloudinaryRemoveImage(user.profilePhoto.publicId)
+  if (user.profilePhoto.publicId !== null) 
+  {
+    await cloudinaryRemoveImage(user.profilePhoto.publicId)
+  }
    // 6. Delete user posts & comments
    await PostModel.deleteMany({user : user._id});
    await commentModel.deleteMany({user : user._id});

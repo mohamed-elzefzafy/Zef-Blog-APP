@@ -17,7 +17,6 @@ if (description.trim() === "") return toast.warning("please enter post descripti
 if (category === "") return toast.warning("please enter post category")
 
 dispatch(updatePost(post?._id , {title , description , category}))
-console.log({title , description , category});
 setShowModal(false);
   }
 
@@ -49,7 +48,7 @@ setShowModal(false);
           <option disabled value="">
             Select A Category
           </option>
-          {categories?.data?.map((category) => (
+          {categories?.map((category) => (
             <option key={category?._id} value={category?._id}>{category?.title}</option>
           ))}
     

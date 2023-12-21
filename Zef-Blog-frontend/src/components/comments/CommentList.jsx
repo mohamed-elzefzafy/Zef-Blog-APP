@@ -9,9 +9,9 @@ import { deleteComment } from "../../redux/apiCalls/commentApiCall";
 const CommentList = ({comments}) => {
   const [showCommentModal, setShowCommentModal] = useState(false);
   const {user} = useSelector((state) => state.auth);
-  const [commentUpdate, setCommentUpdate] = useState("");
+  const [commentUpdate, setCommentUpdate] = useState(null);
   const dispatch = useDispatch();
-  const deleteCommentHandler = (comment) => {
+  const deleteCommentHandler = (commentId) => {
 
     swal({
       title: "Are you sure?",
@@ -22,7 +22,7 @@ const CommentList = ({comments}) => {
     })
     .then((willDelete) => {
       if (willDelete) {
-  dispatch(deleteComment(comment._id))
+  dispatch(deleteComment(commentId))
       } else {
         // swal("something went wrong!");
       }
@@ -34,9 +34,13 @@ const CommentList = ({comments}) => {
     setShowCommentModal(true)
     setCommentUpdate(comment)
   }
+  
   return (
     <div className="comment-list">
-<h4 className="comment-list-count">{comments?.length} comments</h4>
+    {comments?.length < 1 ?  <h4 className="comment-list-count">There's No Comments for this post</h4> : 
+    <h4 className="comment-list-count">{comments?.length} { comments?.length === 1  ? "comment" : "comments"}</h4>
+    }
+
 {comments?.map((comment) => 
 <div key={comment?._id} className="comment-item">
 <div className="comment-item-info">
@@ -56,7 +60,7 @@ const CommentList = ({comments}) => {
 {comment.user === user?._id  ? (
   <div className="comment-items-icons-wrabber">
   <i className="bi bi-pencil-square" onClick={() => updateCommentHandler(comment)}></i>
-  <i className="bi bi-trash-fill" onClick={() => deleteCommentHandler(comment)}></i>
+  <i className="bi bi-trash-fill" onClick={() => deleteCommentHandler(comment?._id)}></i>
 </div>
   ) : null}
 

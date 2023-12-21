@@ -20,11 +20,14 @@ const LoginPage = () => {
       //  navigate("/");
   };
 
+  const [showPassword, setshowPassword] = useState(false);
 
-  // const loggedUser = useSelector((state) => state.auth.user);
-  // if (loggedUser)
-  // console.log(loggedUser);
+  const showPasswordHandler = () => {
+    setshowPassword(prev => !prev)
+  }
+  
 
+  
   return (
     <section className="form-container">
     <h1 className="form-title">Login to your Account</h1>
@@ -44,26 +47,32 @@ const LoginPage = () => {
         />
       </div>
 
-      <div className="form-group">
+      <div className="form-group" style={{position : "relative"}}>
         <label htmlFor="password" className="form-label">
           Password
         </label>
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           className="form-input"
           id="password"
           placeholder="Enter Your Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+{showPassword ?  <i onClick={showPasswordHandler} className="bi bi-eye-fill show-password-icon"></i>  :
+            <i onClick={showPasswordHandler} className="bi bi-eye-slash-fill show-password-icon"></i> 
+            }
+        
       </div>
 
       <button type="submit" className="form-btn">
         Login
       </button>
     </form>
-    <div className="form-footer">
-      Did you fotgot your Password <Link to="/forgot-password">Forgot Password</Link>
+    <div className="form-footer" style={{display : "flex" , flexDirection : "column" , gap : "4px"}}>
+      <span>Did you fotgot your Password ? <Link to="/forgot-password">Forgot Password</Link></span>
+      <span>You don't Have An Account ? <Link to="/register">Register</Link></span>
     </div>
   </section>
   )

@@ -8,13 +8,14 @@ import { authActions } from "../slices/authSlice";
 export function getUserProfile (id) {
   return async (dispatch , getState) => {
     try {
+      dispatch(profileActions.setLoading());
       const {data} = await request.get(`/api/v1/users/profile/${id}` , {
         headers : {
           Authorization : `Bearer ${getState().auth.user.token}`
         }
       })
       dispatch(profileActions.setProfile(data))
-    
+      dispatch(profileActions.clearLoading());
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -66,6 +67,62 @@ export function updateProfileData (id , userData) {
       user.userName = data?.userName;
       user.bio = data?.bio;
       localStorage.setItem("UserInfo" , JSON.stringify(user));
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+}
+
+
+export function deleteProfile (id) {
+  return async (dispatch , getState) => {
+    try {
+      dispatch(profileActions.setLoading());
+      const {data} = await request.delete(`/api/v1/users/profile/${id}` , {
+        headers : {
+          Authorization : `Bearer ${getState().auth.user.token}`,
+        }
+      })
+      dispatch(profileActions.setIsProfileDeleted());
+      toast.success(data?.message)
+      setTimeout(() => {
+        dispatch(profileActions.clearIsProfileDeleted());
+      }, 2000);
+    
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      dispatch(profileActions.clearLoading());  
+    }
+  }
+}
+
+
+export function setUserCount () {
+  return async (dispatch , getState) => {
+    try {
+      const {data} = await request.get(`/api/v1/users/count` , {
+        headers : {
+          Authorization : `Bearer ${getState().auth.user.token}`
+        }
+      })
+      dispatch(profileActions.setUsersCount(data));
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  }
+}
+
+
+export function getAllUsers () {
+  return async (dispatch , getState) => {
+    try {
+      const {data} = await request.get(`/api/v1/users/profile` , {
+        headers : {
+          Authorization : `Bearer ${getState().auth.user.token}`
+        }
+      })
+      dispatch(profileActions.getAllUsers(data));
+    
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }

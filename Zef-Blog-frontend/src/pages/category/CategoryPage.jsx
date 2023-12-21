@@ -5,15 +5,14 @@ import PostList from "../../components/posts/PostList";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryPosts } from "../../redux/apiCalls/postApiCall";
-import { getCategories, getOneCategory } from "../../redux/apiCalls/categoryApiCall";
-// import state from "sweetalert/typings/modules/state";
+import { getOneCategory } from "../../redux/apiCalls/categoryApiCall";
+
 
 const CategoryPage = () => {
   const dispatch = useDispatch(); 
   const {postsCat} = useSelector(state => state.post);
   const {categoryId} = useParams();
-console.log(postsCat?.data);
-console.log(categoryId);
+
 
 useEffect(() => {
 dispatch(getCategoryPosts(categoryId));
@@ -27,12 +26,7 @@ dispatch(getOneCategory(categoryId));
 
 const {category} = useSelector(state => state.category)
 
-// if (categories)
-console.log(category?.data);
 
-// const cat = categories?.data?.find(category => category._id === +categoryId)
-// const cat = categories?.data?.map(category => console.log(category?.title))
-// console.log(cat);
   return (
     <section className="category">
   {postsCat?.data?.length > 0 ? (<>

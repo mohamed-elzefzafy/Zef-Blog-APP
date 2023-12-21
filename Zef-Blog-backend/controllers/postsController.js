@@ -67,7 +67,7 @@ const result =   await cloudinaryUploadImage(req.file.path);
     .populate("comments").populate().populate("category" , ["-user" , "-createdAt","-updatedAt" , "-__v"]);
       } 
 
-       else {
+       else  {
         posts = await PostModel.find(filter).sort({createdAt : -1})
         .populate("user" , ["-password"]).populate("comments")
         .populate("category" , ["-user" , "-createdAt","-updatedAt" , "-__v"]);;
@@ -86,7 +86,7 @@ const result =   await cloudinaryUploadImage(req.file.path);
  ----------------------------------------*/
  exports.getOnePost = asyncHandler(async(req , res) => {
   const post = await PostModel.findById(req.params.id).populate("user" , ["-password"]).populate("comments")
-  .populate("category" , ["-user" , "-createdAt","-updatedAt" , "-__v"]);;
+  .populate("category" , ["-user" , "-createdAt","-updatedAt" , "-__v"]);
   if (!post) {
     return res.status(404).json({message : "this post not found"});
   }
@@ -117,7 +117,7 @@ const post = await PostModel.findById(req.params.id);
 if (!post) {
 return  res.status(400).json({message : `no post found with id ${req.params.id}`})
 }
-if (req.user.isAdmin || req.user.id === post.user.toString())
+if (req.user.isAdmin || req.user.id === post.user._id.toString())
 {
   await PostModel.findByIdAndDelete(req.params.id);
   await cloudinaryRemoveImage(post.image.publicId);
@@ -146,7 +146,7 @@ if (!post) {
 return res.status(400).json({message : `no post found with id ${req.params.id}`})
 }
 
-if (req.user.id !== post.user.toString())
+if (req.user.id !== post.user._id.toString())
 {
   return res.status(403).json({message : `access denied you are not allowed to access this route`})
 }
@@ -157,7 +157,7 @@ const updatedPost = await PostModel.findByIdAndUpdate(req.params.id , {
     description: req.body.description,
     category : req.body.category
   }
-} ,{new : true}).populate("user" , ["-password"]).populate("category");
+} ,{new : true}).populate("user" , ["-password"]).populate("category").populate("comments");
 
 res.status(200).json({data : updatedPost})
  })
@@ -179,7 +179,7 @@ if (!req.file)
   return res.status(404).json({message : `no post found with id ${req.params.id}`})
   }
   
-  if (req.user.id !== post.user.toString())
+  if (req.user.id !== post.user._id.toString())
   {
     return res.status(403).json({message : `access denied you are not allowed`})
   }

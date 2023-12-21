@@ -31,9 +31,20 @@ export function registerUser (user) {
     try {
       const {data} = await request.post("/api/v1/auth/register" , user)
       dispatch(authActions.register(data.message))
-      console.log(data.message);
     } catch (error) {
       toast.error(error.response.data.message);
+    }
+  }
+}
+
+
+export function verifyEmail (userId , token) {
+  return async (dispatch) => {
+    try {
+   await request.get(`/api/v1/auth/${userId}/verify/${token}`);
+      dispatch(authActions.setIsEmailVerified());
+    } catch (error) {
+      
     }
   }
 }

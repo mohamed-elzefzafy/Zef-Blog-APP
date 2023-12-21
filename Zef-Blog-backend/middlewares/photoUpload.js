@@ -4,9 +4,6 @@ const multer = require("multer");
 
 
 const photoStorage = multer.diskStorage({
-  // destination : function (req , file , cb) {
-  //   cb( null , path.join(__dirname , "../images"))
-  // },
   filename : function (req , file , cb) {
   if (file)
   {
@@ -27,7 +24,7 @@ const photoUpload = multer({
       cb({message : "unsupported file format" } , false)
     }
   },
-  limits : {fileSize : 1024 * 1024}
+  limits : {fileSize : 512 * 512}
 });
 
 

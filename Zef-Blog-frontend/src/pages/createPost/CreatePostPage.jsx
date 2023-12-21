@@ -67,7 +67,7 @@ const CreatePostPage = () => {
           <option disabled value="">
             Select Category
           </option>
-          {categories?.data?.map((category) => (
+          {categories?.map((category) => (
             <option value={category?._id}>{category?.title}</option>
           ))}
     

@@ -5,6 +5,14 @@ const connectToDB = require("./config/connectDB");
 const mountRoutes = require("./routes/IndexMountRoute");
 const { notFound, errorHandler } = require("./middlewares/errorsHandler");
 const cors = require("cors");
+const mongoSanitize = require('express-mongo-sanitize');
+const { xss } = require("express-xss-sanitizer");
+const rateLimiting = require("express-rate-limit");
+const compression = require("compression");
+const helmet = require("helmet");
+const hpp = require("hpp");
+
+
 
 
 
@@ -15,6 +23,13 @@ const app = express();
 
 app.use(express.json());
 
+// security headers (helmet)
+app.use(helmet());
+
+// middleware to protect against HTTP Parameter Pollution attacks 
+app.use(hpp());
+
+
 app.get("/" , (req , res) => {
   res.send("Zef-Blog api is running...");
 } )
@@ -22,8 +37,28 @@ app.get("/" , (req , res) => {
 
 // cors policy 
 app.use(cors({
-  origin : "http://localhost:3000"
+  origin : process.env.FRONT_URL
 }));
+
+  // enable other domains accsess the app
+  // app.use(cors());
+  // app.options("*" , cors());
+  
+
+
+
+// To apply data Sanitization:
+app.use(mongoSanitize());
+app.use(xss());
+
+app.use(rateLimiting({
+  windowMs : 10 * 60 * 1000 , //10 minutes
+  max : 200
+}))
+
+// compress all responses 
+app.use(compression());
+
 // mount Routes api 
 mountRoutes(app);
 

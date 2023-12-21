@@ -14,7 +14,7 @@ const postSlice = createSlice({
   } , 
   reducers : {
   setPosts (state , action) {
-    state.posts = action.payload;
+    state.posts = action.payload?.data;
   },
   setPostsCount (state , action) {
     state.postCount = action.payload;
@@ -36,7 +36,7 @@ const postSlice = createSlice({
     state.isPostCreated = false;
   },
   setSpecificPost (state , action) {
-    state.post = action.payload.data;
+    state.post = action.payload;
   },
   setlike (state , action) {
     state.post.likes = action.payload.likes;
@@ -45,18 +45,17 @@ const postSlice = createSlice({
     state.posts = state.posts.filter((post) => post._id !== action.payload)
   },
   addComment (state , action) {
-    state.post.comments.push(action.payload);
+    state.post.comments.push(action.payload?.data);
   },
   updateCommentPost (state , action) {
     state.post.comments = state.post.comments.map((comment) => 
-    comment._id !== action.payload._id ? action.payload : comment
+    comment._id === action.payload._id ? action.payload : comment
     )
   },
   deleteCommentPost (state , action) {
     const comment = state.post.comments.find((comment) => comment._id === action.payload);
     const commentIndex = state.post.comments.indexOf(comment);
     state.post.comments.splice(commentIndex , 1);
-    
   },
   }
 })

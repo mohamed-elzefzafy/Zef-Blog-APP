@@ -48,6 +48,12 @@
   border: 1px solid var(--gray-color);
 }
 
+.show-password-icon {
+  position: absolute;
+  top: 39px;
+  right: 64px;
+font-size: 18px;
+}
 
 .form-btn {
   width: 90%;

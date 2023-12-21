@@ -21,8 +21,7 @@ const {registerMessage} = useSelector((stste) => stste.auth);
     if (email.trim() === "") return toast.warning("Email is required");
     if (password.trim() === "") return toast.warning("Password is required");
 
-    dispatch(registerUser({userName, email, password }))
-    console.log({ userName, email, password });
+    dispatch(registerUser({userName, email, password }));
 
   };
 
@@ -39,6 +38,12 @@ const {registerMessage} = useSelector((stste) => stste.auth);
   }
 
 
+  const [showPassword, setshowPassword] = useState(false);
+
+  const showPasswordHandler = () => {
+    setshowPassword(prev => !prev)
+  }
+  
 
   
   return (
@@ -73,18 +78,23 @@ const {registerMessage} = useSelector((stste) => stste.auth);
           />
         </div>
 
-        <div className="form-group">
+        <div className="form-group" style={{position : "relative"}}>
           <label htmlFor="password" className="form-label">
             Password
           </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             className="form-input"
             id="password"
             placeholder="Enter Your Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+{showPassword ?  <i onClick={showPasswordHandler} className="bi bi-eye-fill show-password-icon"></i>  :
+            <i onClick={showPasswordHandler} className="bi bi-eye-slash-fill show-password-icon"></i> 
+            }
+        
         </div>
 
         <button type="submit" className="form-btn">
@@ -92,7 +102,7 @@ const {registerMessage} = useSelector((stste) => stste.auth);
         </button>
       </form>
       <div className="form-footer">
-        Already Have An Account <Link to="/login">Login</Link>
+        Already Have An Account ? <Link to="/login">Login</Link>
       </div>
     </section>
   );

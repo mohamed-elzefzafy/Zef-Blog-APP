@@ -31,3 +31,47 @@ export function getOneCategory (id) {
     }
   }
   
+
+  export function deleteCategory (id) {
+    return  async (dispatch , getState) => {
+        try {
+          
+        const {data} = await request.delete(`/api/v1/categories/${id}` , {
+            headers : {
+              Authorization : `Bearer ${getState().auth.user.token}`
+            }
+          });
+
+          dispatch(categoryAction.deleteCategory(id));
+          dispatch(categoryAction.setLoading());
+          setTimeout(() => {
+            dispatch(categoryAction.clearLoading());
+          }, 2000);
+        
+          toast.success(data?.message)
+        } catch (error) {
+          toast.error(error?.response?.data?.message);
+        }
+      }
+    }
+
+  export function createCategory (category) {
+    return  async (dispatch , getState) => {
+        try {
+        
+        const {data} = await request.post(`/api/v1/categories` , category , {
+            headers : {
+              Authorization : `Bearer ${getState().auth.user.token}`
+            }
+          });
+          dispatch(categoryAction.addCategory(data));
+          dispatch(categoryAction.setLoading());
+          setTimeout(() => {
+            dispatch(categoryAction.clearLoading());
+          }, 2000);
+          toast.success("category created successfully");
+        } catch (error) {
+          toast.error(error?.response?.data?.message);
+        }
+      }
+    }

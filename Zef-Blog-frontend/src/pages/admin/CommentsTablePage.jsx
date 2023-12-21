@@ -1,11 +1,24 @@
 import swal from "sweetalert";
 import AdminSidebar from "./AdminSidebar";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { deleteComment, getAllComments } from "../../redux/apiCalls/commentApiCall";
 
 
 const CommentsTablePage = () => {
 
-  const deleteCommentHandler = () => {
+  const dispatch = useDispatch();
+
+  const { comments } = useSelector(state => state.comment);
+
+useEffect(() => {
+  dispatch(getAllComments());
+  },[dispatch])
+  
+
+
+  const deleteCommentHandler = (id) => {
 
     swal({
       title: "Are you sure?",
@@ -16,12 +29,8 @@ const CommentsTablePage = () => {
     })
     .then((willDelete) => {
       if (willDelete) {
-        swal("Comment has been deleted!", {
-          icon: "success",
-        });
-      } else {
-        // swal("something went wrong!");
-      }
+  dispatch(deleteComment(id))
+      } 
     });
 
   }
@@ -41,20 +50,20 @@ const CommentsTablePage = () => {
               </tr>
             </thead>
             <tbody>
-              {[1 , 2 , 3 , 4 , 5].map((comment , index) => 
+              {comments?.map((comment , index) => 
               <tr key={comment}>
               <td>{index + 1}</td>
               <td>
                 <div className="table-image">
-                <img src="/images/user-avatar.png" alt="" className="user-image" />
-                <span className="table-username">Mohamed elzefzafy</span>
+                <img src={comment?.user?.profilePhoto?.url} alt="" className="user-image" />
+                <span className="table-username">{comment?.user?.userName}</span>
                 </div>
               </td>
-              <td>amazing post</td>
+              <td>{comment?.text}</td>
               <td>
                 <div className="table-button-group">
             
-                  <button onClick={deleteCommentHandler}>Delete Comment</button>
+                  <button onClick={ () => deleteCommentHandler(comment._id)}>Delete Comment</button>
                 </div>
               </td>
               </tr>

@@ -24,7 +24,7 @@ const cloudinaryUploadImage = async(fileUpload) => {
 // cloudinary Remove image
 const cloudinaryRemoveImage = async(ImagePublicId) => {
   try {
-    const result = await cloudinary.v2.uploader.destroy(ImagePublicId)
+    const result = await cloudinary.uploader.destroy(ImagePublicId)
     return result;
     
   } catch (error) {
@@ -32,6 +32,9 @@ const cloudinaryRemoveImage = async(ImagePublicId) => {
     throw new Error("internal server error cloudinary" )
   }
 }
+
+
+
 // cloudinary Remove multiple image
 const cloudinaryRemoveMultipleImage = async(publicIds) => {
   try {
@@ -46,3 +49,8 @@ const cloudinaryRemoveMultipleImage = async(publicIds) => {
 
 
 module.exports = { cloudinaryUploadImage , cloudinaryRemoveImage , cloudinaryRemoveMultipleImage}
+
+
+
+
+

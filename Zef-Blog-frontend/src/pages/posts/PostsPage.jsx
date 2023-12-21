@@ -23,9 +23,6 @@ const PostsPage = () => {
     dispatch(getPostsCount());
   }, []);
 
-  console.log(postCount?.data);
-  console.log(pages);
-
   useEffect(() => {
     dispatch(getCategories());
     },[])
@@ -34,8 +31,8 @@ const PostsPage = () => {
   return (
     <>
       <section className="post-page">
-        <PostList posts={posts?.data} />
-        <Sidebar categories={categories?.data} />
+        <PostList posts={posts} />
+        <Sidebar categories={categories} />
       </section>
       <Pagination
         currentPage={currentPage}

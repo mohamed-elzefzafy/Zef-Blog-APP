@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 export function getAllPosts (pageNumber) {
 return  async (dispatch) => {
     try {
+      dispatch(postAction.setLoading());
       const {data} = await request.get(`/api/v1/posts?pageNumber=${pageNumber}`);
 
       dispatch(postAction.setPosts(data));
+      dispatch(postAction.clearLoading());
       toast.success(data?.message)
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -16,6 +18,21 @@ return  async (dispatch) => {
   }
 }
 
+
+export function getAllPostsWithoutPgeNumber () {
+  return  async (dispatch) => {
+      try {
+        
+        const {data} = await request.get(`/api/v1/posts`);
+  
+        dispatch(postAction.setPosts(data));
+        toast.success(data?.message)
+      } catch (error) {
+        toast.error(error?.response?.data?.message);
+      }
+    }
+  }
+  
 // count of posts
 export function getPostsCount () {
 return  async (dispatch) => {
@@ -73,7 +90,7 @@ export function getOnePost (id) {
       try {
         const {data} = await request.get(`/api/v1/posts/${id}`);
   
-        dispatch(postAction.setSpecificPost(data));
+        dispatch(postAction.setSpecificPost(data?.data));
         toast.success(data?.message)
       } catch (error) {
         toast.error(error?.response?.data?.message);
@@ -103,7 +120,7 @@ export function toggleLikePost (id) {
 export function updatePostImage (id , image) {
   return  async (dispatch , getState) => {
       try {
-       request.put(`/api/v1/posts/update-image/${id}` , image , {
+    await request.put(`/api/v1/posts/update-image/${id}` , image , {
           headers : {
             "Content-Type" : "multipart/form-data",
             Authorization : `Bearer ${getState().auth.user.token}`
@@ -138,12 +155,19 @@ export function updatePost (id , postData) {
 export function deletePost (id) {
   return  async (dispatch , getState) => {
       try {
-      const {data} = request.delete(`/api/v1/posts/${id}` , {
+        dispatch(postAction.clearLoading());
+      const {data} = await request.delete(`/api/v1/posts/${id}` , {
           headers : {
             Authorization : `Bearer ${getState().auth.user.token}`
           }
         });
+        dispatch(postAction.setLoading());
         dispatch(postAction.deletePost(data?.postId));
+
+
+        setTimeout(() => {
+          dispatch(postAction.clearLoading());
+        }, 2000);
         toast.success(data?.message)
       } catch (error) {
         toast.error(error?.response?.data?.message);

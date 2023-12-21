@@ -52,6 +52,20 @@ PostSchema.virtual("comments" , {
   localField : "_id"
 })
 
+
+PostSchema.pre(/^find/ , function (next)  {
+  this.populate({
+    path : "user" ,
+    select : "userName profilePhoto"
+  })
+  this.populate({
+    path : "category" ,
+    select : "title"
+  })
+
+  next();
+})
+
 const PostModel = mongoose.model("Post" , PostSchema);
 
 //validate Create Post

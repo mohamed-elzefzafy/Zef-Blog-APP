@@ -7,11 +7,13 @@ const authSlice = createSlice({
   initialState : {
     user : localStorage.getItem("UserInfo") ? JSON.parse(localStorage.getItem("UserInfo")) : null,
     registerMessage : null,
+    isEmailVerified : true,
 
   },
   reducers : {
     login (state , action) {
        state.user = action.payload;
+       state.registerMessage = null;
     },
     logout (state) {
        state.user = null;
@@ -24,6 +26,10 @@ const authSlice = createSlice({
     },
     updateUserName (state , action) {
        state.user.userName = action.payload ;
+    },
+    setIsEmailVerified (state) {
+      state.isEmailVerified = true ;
+      state.registerMessage = null;
     },
   }
 })

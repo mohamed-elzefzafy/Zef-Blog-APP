@@ -2,10 +2,26 @@ import "./adminTable.css";
 import { Link } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 import swal from "sweetalert";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { deleteProfile, getAllUsers } from "../../redux/apiCalls/profileApiCall";
 
 
 const UsersTablePage = () => {
-  const deleteUserHandler = () => {
+
+  const dispatch = useDispatch();
+
+
+  const {profiles , isProfileDeleted , loading} = useSelector(state => state.profile);
+
+useEffect(() => {
+  dispatch(getAllUsers());
+  },[isProfileDeleted , dispatch , loading])
+  
+
+
+
+  const deleteUserHandler = (id) => {
 
     swal({
       title: "Are you sure?",
@@ -16,12 +32,8 @@ const UsersTablePage = () => {
     })
     .then((willDelete) => {
       if (willDelete) {
-        swal("User has been deleted!", {
-          icon: "success",
-        });
-      } else {
-        // swal("something went wrong!");
-      }
+  dispatch(deleteProfile(id))
+      } 
     });
 
   }
@@ -41,24 +53,24 @@ const UsersTablePage = () => {
             </tr>
           </thead>
           <tbody>
-            {[1 , 2 , 3 , 4 , 5 , 6 , 7, 8 , 9, 10].map((item , index) => 
-            <tr key={item}>
+            {profiles?.data?.map((user , index) => 
+            <tr key={user._id}>
             <td>{index + 1}</td>
             <td>
               <div className="table-image">
-              <img src="/images/user-avatar.png" alt="" className="user-image" />
-              <span className="table-username">Mohamed Elzefzafy</span>
+              <img src={user?.profilePhoto?.url} alt="" className="user-image" />
+              <span className="table-username">{user?.userName}</span>
               </div>
             </td>
-            <td>Elzefzafy@fdfdsfsd.dfss</td>
+            <td>{user?.email}</td>
             <td>
               <div className="table-button-group">
                 <button>
-                  <Link to={`/profile/1`}>
+                  <Link to={`/profile/${user?._id}`}>
                     View Profile
                   </Link>
                 </button>
-                <button onClick={deleteUserHandler}>Delete User</button>
+                <button onClick={() => deleteUserHandler(user?._id)}>Delete User</button>
               </div>
             </td>
             </tr>

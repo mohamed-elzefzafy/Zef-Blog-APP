@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const mongoose  = require("mongoose");
 const jwt = require("jsonwebtoken");
-
+const passwordComplexity = require("joi-password-complexity");
 
 const UserSchema = new mongoose.Schema({
 userName : {
@@ -60,14 +60,6 @@ localField : "_id"
  
 })
 
-// UserSchema.virtual("posts", {
-//   ref: "Post",
-//   foreignField: "user",
-//   localField: "_id",
-// });
-
-
-  //generate auth token
 
   UserSchema.methods.generateAuthToken = function () {
     return jwt.sign({id : this._id , isAdmin : this.isAdmin} , process.env.JWT_SECRET_KEY )
@@ -80,7 +72,7 @@ localField : "_id"
     const schema = Joi.object({
       userName : Joi.string().trim().min(2).max(100).required(),
       email : Joi.string().trim().min(5).max(100).required().email(),
-      password : Joi.string().trim().min(8).required(),
+      password : passwordComplexity().required(),
     });
 
     return schema.validate(obj);
@@ -99,14 +91,33 @@ localField : "_id"
   function validateUpdateUser (obj) {
     const schema = Joi.object({
       userName : Joi.string().trim().min(2).max(100),
-      password : Joi.string().trim().min(8),
+      password : passwordComplexity(),
       bio : Joi.string(),
     });
 
     return schema.validate(obj);
   }
 
-  module.exports = {UserModel , validateRegisterUser , validateLoginUser , validateUpdateUser};
+  function validateEmail (obj) {
+    const schema = Joi.object({
+      email : Joi.string().trim().min(5).max(100).required().email(),
+    });
+
+    return schema.validate(obj);
+  }
+
+  function validateNewPassword (obj) {
+    const schema = Joi.object({
+      password : passwordComplexity().required(),
+    });
+
+    return schema.validate(obj);
+  }
+
+
+
+  module.exports = { UserModel , validateRegisterUser , validateLoginUser , validateUpdateUser ,
+                               validateEmail , validateNewPassword};
 
 
 

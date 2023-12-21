@@ -1,26 +1,31 @@
 import swal from "sweetalert";
 import AdminSidebar from "./AdminSidebar";
-import { categories } from "../../dummyData";
+import { useEffect } from "react";
+import { deleteCategory, getCategories } from "../../redux/apiCalls/categoryApiCall";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const CategoriesTablePage = () => {
+  const dispatch = useDispatch();
 
-  const deleteCategoryHandler = () => {
+    const {categories , loadingCategory} = useSelector(state => state.category);
+  useEffect(() => {
+    dispatch(getCategories());
+    },[  dispatch])
+    
+
+    
+  const deleteCategoryHandler = (id) => {
 
     swal({
       title: "Are you sure?",
-      text: "you will delete this Category!",
+      text: "you want to delete Category ?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        swal("Category has been deleted!", {
-          icon: "success",
-        });
-      } else {
-        // swal("something went wrong!");
+    }).then((isOk) => {
+      if (isOk) {
+       dispatch(deleteCategory(id))
       }
     });
 
@@ -39,16 +44,16 @@ const CategoriesTablePage = () => {
               </tr>
             </thead>
             <tbody>
-              {categories.map((Category , index) => 
-              <tr key={Category._id}>
+              {categories?.map((Category , index) => 
+              <tr key={Category?._id}>
               <td>{index + 1}</td>
         
               <td>
-            <b>{Category.title}</b>
+            <b>{Category?.title}</b>
               </td>
               <td>
                 <div className="table-button-group">
-                  <button onClick={deleteCategoryHandler}>Delete Category</button>
+                  <button onClick={() => deleteCategoryHandler(Category?._id)}>Delete Category</button>
                 </div>
               </td>
               </tr>

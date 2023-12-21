@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { UserModel } = require("../models/userModel");
 const { validateCreateCategory, CategoryModel } = require("../models/categoryModel");
+const { PostModel } = require("../models/postModel");
 
 /**---------------------------------------
  * @desc    create category
@@ -59,6 +60,8 @@ const category = await CategoryModel.findById(req.params.id);
 if (!category) {
   return res.status(404).json({message : `therse no category with id ${req.params.id}`});
 }
+ await PostModel.deleteMany({category : category._id});
+
 await CategoryModel.findByIdAndDelete(req.params.id);
 res.status(200).json({ message : "category deleted successfully" , category_id : category._id});
  })
