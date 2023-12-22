@@ -11,7 +11,7 @@ router.route("/count").get(getPostsCount);
 router.route("/:id").get(validateObjectId , getOnePost).delete(validateObjectId ,verifyToken ,  deletePost)
                     .put(validateObjectId , verifyToken , updatePost);    
 router.route("/update-image/:id").put(validateObjectId , verifyToken , photoUpload.single("image") , updatePostImage)     
-router.route("/like/:id").put(validateObjectId , verifyTokenUserNotAdmin , ToggleLike)     
+router.route("/like/:id").put(validateObjectId , verifyToken , ToggleLike)     
                
           
 

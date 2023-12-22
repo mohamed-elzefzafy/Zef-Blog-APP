@@ -44,7 +44,7 @@ margin-top: 2px;
 @media (max-width : 600px) {
   .category-title {
 
-    font-size: 21px;
+    font-size: 14px;
   }
   .category-notfound {
     font-size: 25px;

@@ -108,12 +108,6 @@ const PostDetailsPage = () => {
       </div>
       <p className="post-details-description">
         {post?.description}
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae animi
-        quod ducimus? Nostrum aliquid, rem vel sint a voluptatem nulla alias,
-        molestias, ab quod ducimus! Tempore odit repellat perspiciatis quaerat.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae animi
-        quod ducimus? Nostrum aliquid, rem vel sint a voluptatem nulla alias,
-        molestias, ab quod ducimus! Tempore odit repellat perspiciatis quaerat.
       </p>
       <div className="post-details-icon-wrabber">
         <div>
